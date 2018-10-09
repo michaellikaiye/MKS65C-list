@@ -27,30 +27,17 @@ struct node * insert_front(struct node *n, int a) {
 
 /* Should take a pointer to a list as a parameter and then go through the entire list freeing each node and return a pointer to the beginning of the list (which should be NULL by then).   */
 struct node * free_list(struct node *n) {
-  //struct node *p = n;
-  //while(n) {
-    //struct node *c = n->next;
-    //free(n);
-    //n = c;
-    //printf("%d, ",c->price);
-  //}
-  while(n) {
-    free(n);
-  }
-  return n;
-}
-void freeList(struct node* n)
-{
-   struct node *p;
-
+  struct node *re = n;
+  struct node *p;
    while (n != NULL)
     {
        p = n;
        n = n->next;
        free(p);
     }
-
+  return re;
 }
+
 int main() {
   struct node a;
   struct node b;
@@ -73,7 +60,7 @@ int main() {
   struct node *sb = insert_front(sa, 9);
   print_list(sb);
   printf("\nfree\n");
-  freeList(sb);
+  free_list(sb);
   //struct node *sx = free_list(sb);
   //print_list(sb);
   return 0;
