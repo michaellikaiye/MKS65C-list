@@ -1,13 +1,10 @@
-/* Your list functions should be in a .c/.h library, with a separate .c file used for testing.               */
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
-struct node {int price; struct node *next;};
+#include"list.h"
 
 /* Should take a pointer to a node struct and print out all of the data in the list */
 void print_list(struct node *n) {
-  if(!n)
-    printf("null");
   while(n) {
     printf("%d, ",n->price);
     n = n->next;
@@ -25,43 +22,37 @@ struct node * insert_front(struct node *n, int a) {
   return p;
 }
 
-/* Should take a pointer to a list as a parameter and then go through the entire list freeing each node and return a pointer to the beginning of the list (which should be NULL by then).   */
-struct node * free_list(struct node *n) {
-  struct node *re = n;
-  struct node *p;
-   while (n != NULL)
-    {
-       p = n;
-       n = n->next;
-       free(p);
-    }
-  return re;
+/* Helper for free_list... maybe */
+struct node * remove_first(struct node * n) {
+    if (n == NULL)
+        return n;
+    struct node * next;
+    next = n->next;
+    free(n);
+    return next;
 }
 
-int main() {
-  struct node a;
-  struct node b;
-  struct node c;
-  struct node *s1 = &a;
-  struct node *s2 = &b;
-  struct node *s3 = &c;
-  a.price = 91;
-  a.next = s2;
-  b.price = 19;
-  b.next = s3;
-  c.price = 44;
-  c.next = NULL;
+/* Should take a pointer to a list as a parameter and then go through the entire list freeing each node and return a pointer to the beginning of the list (which should be NULL by then).   */
+struct node * free_list(struct node *n) {
 
-  printf("List starting from s1:\n");
-  print_list(s1);
-  printf("\n\nAdding 5 to beginning\n");
-  struct node *s0 = insert_front(s1, 5);
-  struct node *sa = insert_front(s0, 7);
-  struct node *sb = insert_front(sa, 9);
-  print_list(sb);
-  printf("\nfree\n");
-  free_list(sb);
-  //struct node *sx = free_list(sb);
-  //print_list(sb);
-  return 0;
+  //WORKS AS WELL???
+  /* struct node * tr = n; */
+  /* while (n) { */
+  /*   struct node *ot; */
+  /*   ot = remove_first(n); */
+  /*   n = ot; */
+  /* } */
+  /* return tr; */
+  
+  struct node * next = n;
+
+  while(n->next){
+    struct node * current = n;
+    while (current->next->next != NULL) {
+      current = current->next;
+    }
+    free(current->next);
+    current->next = NULL;
+  }
+  return remove_first(n);
 }
