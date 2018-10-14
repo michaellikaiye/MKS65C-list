@@ -1,8 +1,8 @@
-all: ./listtest run
+all: ./test.out
 
-./listtest: list.c testing.c
-	gcc  -o listtest list.c testing.c
+./test.out: list.c main.c
+	gcc  -o test.out list.c main.c
 run:
-	./listtest
+	./test.out
 clean:
-	rm -f listtest list.o testing.o *~
+	rm -f test.out list.o main.o *~
